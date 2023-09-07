@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 // The URL to monitor
-const pingURL = "http://danielraffel.me";
+const pingURL = "https://YOURURL.com";
 // The webhook for RestartVMService see https://github.com/danielraffel/RestartVMService for details
 const webhookURL = "https://YOUR_ZONE-YOUR_PROJECT_ID-NUMBER.cloudfunctions.net";
 // Your unique password to validate your webhook for RestartVMService
