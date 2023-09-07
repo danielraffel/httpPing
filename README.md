@@ -1,6 +1,6 @@
 # httpPing
 
-When triggered this Google Cloud Function will ping a URL and reports its status. If the URL is not responding, the function will trigger a webhook. While it's not necessary to use it this way it was designed to be used with [RestartVMService](https://github.com/danielraffel/RestartVMService) to trigger restarting a Google Cloud VM using when a ping notices the VM is not available.
+When activated, this Google Cloud Function checks the status of a specific URL. If the URL is unresponsive, the function initiates a webhook. Although not mandatory, it's optimized for use with [RestartVMService](https://github.com/danielraffel/RestartVMService) which will automatically restart a Google Cloud VM when the hosted URL becomes unavailable.
 
 ## One-liner
 
