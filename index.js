@@ -12,40 +12,38 @@ let consecutiveErrors = 0;
 // Function to ping the site and return its status
 async function pingSite() {
   let responseState = "";
+  const startTime = Date.now();  // Start time before the ping
+
   try {
-    // Make a GET request to the site
     const response = await axios.get(pingURL);
-    // Log the received HTTP status for easy spotting in logs
-    console.log(`[Ping Response] HTTP Status: ${response.status}`);
-    
-    // Check if the status code is OK
+    const endTime = Date.now();  // End time after the response
+
+    const timeTaken = endTime - startTime;
+    console.log(`[Ping Response] HTTP Status: ${response.status}, Time Taken: ${timeTaken}ms`);
+
     if (response.status >= 200 && response.status < 300) {
-      // Reset consecutive error counter
       consecutiveErrors = 0;
-      responseState = `HTTP Status: ${response.status}`;
+      responseState = `HTTP Status: ${response.status}, Time Taken: ${timeTaken}ms`;
     } else {
-      // Increment consecutive error counter
       consecutiveErrors++;
-      responseState = `Reporting Error: ${response.status}`;
+      responseState = `Reporting Error: ${response.status}, Time Taken: ${timeTaken}ms`;
     }
   } catch (error) {
-    // Increment consecutive error counter
+    const endTime = Date.now();  // End time after the error
+    const timeTaken = endTime - startTime;
+
     consecutiveErrors++;
-    // Determine the type of error
     if (error.response) {
-      responseState = `Reporting Error: ${error.response.status}`;
+      responseState = `Reporting Error: ${error.response.status}, Time Taken: ${timeTaken}ms`;
     } else if (error.request) {
-      responseState = "Not Responding";
+      responseState = `Not Responding, Time Taken: ${timeTaken}ms`;
     }
   }
-  
-  // Log how the response was processed
+
   console.log(`[Processed State] ${responseState}`);
 
-  // Trigger the webhook if there are 2 or more consecutive errors
   if (consecutiveErrors >= 2) {
     triggerWebhook(responseState);
-    // Reset consecutive error counter
     consecutiveErrors = 0;
   }
 
@@ -55,7 +53,6 @@ async function pingSite() {
 // Function to trigger a webhook
 async function triggerWebhook(responseState) {
   try {
-    // Make a POST request to the webhook URL
     await axios.post(webhookURL, {
       ...secretPayload,
       "responseState": responseState
@@ -67,8 +64,6 @@ async function triggerWebhook(responseState) {
 
 // The main function that will be exported and triggered
 exports.httpPing = async (req, res) => {
-  // Call the pingSite function and get the status
   const status = await pingSite();
-  // Send the status as the HTTP response
   res.status(200).send(`Site Status: ${status}`);
 };
