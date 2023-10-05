@@ -1,6 +1,6 @@
 # httpPing
 
-When activated, this Google Cloud Function checks the status of a specific URL. If the URL is unresponsive, the function initiates a webhook. Although not mandatory, it's optimized for use with [RestartVMService](https://github.com/danielraffel/RestartVMService) which will automatically restart a Google Cloud VM when the hosted URL becomes unavailable.
+When activated, this Google Cloud Function checks the status of a specific URL and tracks the time it took to ping and alongside the HTTP status. If the URL is unresponsive, the function initiates a webhook. Although not mandatory, it's optimized for use with [RestartVMService](https://github.com/danielraffel/RestartVMService) which will automatically restart a Google Cloud VM when the hosted URL becomes unavailable.
 
 ## One-liner
 
@@ -30,6 +30,12 @@ export const httpPing = async (req, res) => {
 ```
 
 In this example, the `pingSite` function is used to ping the website. The `status` variable is then used to set the response status code and message.
+
+Once you've applied the appropriate filters, you should see logs related to your Cloud Function. The logs will include entries like:
+```
+[Ping Response] HTTP Status: 200, Time Taken: 123ms
+[Processed State] HTTP Status: 200, Time Taken: 123ms
+```
 
 ## Troubleshooting
 
