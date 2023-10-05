@@ -31,7 +31,7 @@ export const httpPing = async (req, res) => {
 
 In this example, the `pingSite` function is used to ping the website. The `status` variable is then used to set the response status code and message.
 
-Once you've applied the appropriate filters, you should see logs related to your Cloud Function. The logs will include entries like:
+When successfully executed you should see logs related to your Cloud Function which look like:
 ```
 [Ping Response] HTTP Status: 200, Time Taken: 123ms
 [Processed State] HTTP Status: 200, Time Taken: 123ms
